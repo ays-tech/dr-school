@@ -1,0 +1,50 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container my-5">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Title: {{ resource.title }}</h3>
+        <h6 class="card-subtitle mb-2 text-muted">category: {{ resource.category }}</h6>
+        <p class="card-text">Description: {{resource.description }}</p>
+        <p class="card-text">resource for  -{{resource.school }} -</p>
+        {% if resource.document %}
+        <a href="{{ resource.document.url }}" target="_blank" class="btn btn-primary">View Document</a>
+        {% endif %}
+        
+        <hr>
+
+
+    <div class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-subtitle mb-2 text-muted">Reviews:</h5>
+        {% for review in reviews %}
+        <div class="card my-2">
+          <div class="card-body">
+            <p class="card-text">{{ review.text }}</p>
+            <h6 class="card-subtitle mb-2 text-muted">posted by: {{ review.user.username }}</h6>
+            <p class="card-text">{{ review.created_at|date:"F d, Y" }}</p>
+          </div>
+        </div>
+
+
+        {% endfor %}
+        <form method="POST" action=".">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_text">Add Review</label>
+            <textarea name="text" class="form-control" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+{% endblock %}
+
+

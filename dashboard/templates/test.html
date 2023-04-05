@@ -1,0 +1,347 @@
+{% extends 'layouts/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+  <div class="container">
+    <br>
+    <br>
+    <h1 class="mt-5">Get Started with Your Personal AI mentor</h1>
+    <p>
+      chat Bot Realease V.1
+    </p>
+
+    <div id="chat-box" class="card mb-3">
+      <div class="card-body">
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action d-flex justify-content-end py-2">
+            <div class="bg-primary text-white rounded px-3 py-2">
+              <p class="mb-0">Hi, I'm your personal assistant. How can I help you today?</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="chat-input">
+      <div class="input-group-append">
+        <button id="gpt-button" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+<script>
+  $("#gpt-button").click(function(){
+    let question = $('#chat-input').val();
+    let html_data = '';
+    html_data += `
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-end py-2">
+      <div class="bg-light rounded px-3 py-2">
+        <p class="mb-0">${question}</p>
+      </div>
+    </a>
+    `;
+    $('#chat-input').val('');
+    $('#chat-box .list-group').append(html_data);
+
+    // ajax call to server
+    $.ajax({
+      url: "",
+      method: "POST",
+      data: { "prompt": question },
+      success: function(response) {
+        let gpt_data = '';
+        gpt_data += `
+        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-start py-2">
+          <div class="bg-primary text-white rounded px-3 py-2">
+            <p class="mb-0">${response.answer}</p>
+          </div>
+        </a>
+        `
+        $('#chat-box .list-group').append(gpt_data);
+      }
+    });
+  });
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+/// my own html
+
+{% extends 'layouts/dashboard.html' %}
+{% load static %}
+
+
+
+{% block body %}
+
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+  <div class="container">
+    <br>
+    <br>
+    <h1 class="mt-5">Get Started with Your Personal AI mentor</h1>
+    <p>
+      chat Bot Realease V.1
+    </p>
+     
+  
+    <div id="list-group" class="list-group w-auto">
+        <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
+            <img src="https://digital-practice.ams3.cdn.digitaloceanspaces.com/static%2Fapp%2Fimg%2Fopenai-logo.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <p class="mb-0 opacity-75">Hy {{user.first_name}}, i will be your personal Assistant, i was designed and Trained to Help You study and also improve your vocabulary</p>
+                </div>
+            </div>
+        </a>
+    </div>
+   <div class="input-group mb-3">
+        <input type="text" class="form-control" id="chat-input">
+        <div class="input-group-append">
+            <button id="gpt-button" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+      </div>
+
+
+  </div>
+</main>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <script>
+$("#gpt-button").click(function(){
+    let question = $('#chat-input').val();
+    let html_data = '';
+    html_data += `
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
+
+        {% if user.profile.profileImage.name  %}
+        <img src="{{ user.profile.profileImage.url }}" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+        <div class="d-flex gap-2 w-100 justify-content-between">
+        {% else %}
+        <img src="{% static 'main/img/avatars/download.png' %}" alt class="w-px-40 h-auto rounded-circle" />
+        {% endif  %}
+            <div>
+                <p class="mb-0 opacity-75">${question}</p>
+            </div>
+        </div>
+    </a>
+    `;
+    $('#chat-input').val('');
+    $('#list-group').append(html_data);
+
+     // ajax call to server
+
+    $.ajax({
+    url: "",
+    method: "POST",
+    data: { "prompt": question },
+    success: function(response) {
+        
+    let gpt_data = '';
+    gpt_data += `
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
+            <img src="https://digital-practice.ams3.cdn.digitaloceanspaces.com/static%2Fapp%2Fimg%2Fopenai-logo.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <p class="mb-0 opacity-75">${response.answer}</p>
+                </div>
+            </div>
+        </a>
+    `;
+    $('#list-group').append(gpt_data);
+    }
+    });
+
+});
+
+
+
+
+    </script>
+
+  </body>
+</html>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+/// with css 
+
+{% extends 'layouts/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+
+<style>
+    /* Chat bubble */
+    .list-group-item {
+        border: none;
+        border-radius: 1.5rem;
+        padding: 0.5rem 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Chat bubble - user */
+    .list-group-item-user {
+        background-color: #e9ecef;
+    }
+
+    /* Chat bubble - bot */
+    .list-group-item-bot {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    /* Chat bubble - avatar */
+    .list-group-item-avatar {
+        width: 32px;
+        height: 32px;
+        margin-right: 0.5rem;
+        border-radius: 50%;
+    }
+
+    /* Container */
+    .container {
+        max-width: 800px;
+    }
+</style>
+
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+  <div class="container py-5">
+    <h1 class="mt-5">Get Started with Your Personal AI mentor</h1>
+    <p>
+      chat Bot Release V.1
+    </p>
+    <div id="list-group" class="w-auto">
+        <a href="#" class="list-group-item list-group-item-user d-flex gap-3 py-3">
+            {% if user.profile.profileImage.name  %}
+            <img src="{{ user.profile.profileImage.url }}" alt="Avatar" class="list-group-item-avatar">
+            {% else %}
+            <img src="{% static 'main/img/avatars/download.png' %}" alt="Avatar" class="list-group-item-avatar">
+            {% endif  %}
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <p class="mb-0 opacity-75">Hi {{ user.first_name }}, I will be your personal assistant. I was designed and trained to help you study and also improve your vocabulary.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+   <div class="input-group mb-3">
+        <input type="text" class="form-control" id="chat-input" placeholder="Ask me anything">
+        <div class="input-group-append">
+            <button id="gpt-button" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+      </div>
+  </div>
+</main>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <script>
+        
+    $("#gpt-button").click(function(){
+        let question = $('#chat-input').val();
+        let html_data = '';
+        html_data += `
+        <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
+
+            {% if user.profile.profileImage.name  %}
+            <img src="{{ user.profile.profileImage.url }}" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+            {% else %}
+            <img src="{% static 'main/img/avatars/download.png' %}" alt class="w-px-40 h-auto rounded-circle" />
+            {% endif  %}
+                <div>
+                    <p class="mb-0 opacity-75">${question}</p>
+                </div>
+            </div>
+        </a>
+        `;
+        $('#chat-input').val('');
+        $('#list-group').append(html_data);
+
+        // ajax call to server
+
+        $.ajax({
+        url: "",
+        method: "POST",
+        data: { "prompt": question },
+        success: function(response) {
+    let gpt_data = '';
+    gpt_data += `
+        <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3">
+            <img src="https://digital-practice.ams3.cdn.digitaloceanspaces.com/static%2Fapp%2Fimg%2Fopenai-logo.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <p class="mb-0"></p>
+                </div>
+            </div>
+        </a>
+    `
+    $('#list-group').append(gpt_data);
+
+    // simulate typing animation for bot's response
+    setTimeout(function() {
+        let words = response.answer.split(" ");
+        let i = 0;
+        let interval = setInterval(function() {
+            if (i < words.length) {
+                let current_text = $('#list-group').find('p:last').html();
+                $('#list-group').find('p:last').html(current_text + " " + words[i]);
+                i++;
+            } else {
+                clearInterval(interval);
+            }
+        }, 50);
+    }, 1000);
+}
+
+        });
+
+    });
+    </script>
+
+  </body>
+</html>
+
+
+{% endblock %}
+
+
+
+

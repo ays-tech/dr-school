@@ -1,0 +1,49 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+
+
+
+
+{% block content %}
+
+<div class="card">
+  <h5 class="card-header">my files</h5>
+  
+  {% if resources %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Created</th>
+          <th>Updated</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for resource in resources %}
+          <tr>
+            <td>{{ resource.title }}</td>
+            <td>{{ resource.created_at }}</td>
+            <td>{{ resource.updated_at }}</td>
+            <td>
+              <a href="{% url 'edit_resource' pk=resource.pk %}" class="btn btn-primary btn-sm mr-2">Edit</a>
+              <a href= "{% url 'delete_resource' pk=resource.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    </div>
+    </div>
+  {% else %}
+  <div class="col-md-10">
+      <p>No files found.       <a href="{% url 'add_resource' %}" class="btn btn-primary btn-sm">Add Resource</a></p>
+    </div>
+   
+  {% endif %}
+
+
+{% endblock %}
+

@@ -1,0 +1,129 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<style>
+.hero-image {
+    background-image: url('/static/blog/images/sigup.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+}
+
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
+
+.hero-text h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.hero-text p {
+    font-size: 1.5rem;
+    margin-top: 0;
+}
+
+.btn-google {
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 1px #ddd
+}
+
+.or-container {
+    align-items: center;
+    color: #ccc;
+    display: flex;
+    margin: 25px 0
+}
+
+.line-separator {
+    background-color: #ccc;
+    flex-grow: 5;
+    height: 1px
+}
+
+.or-label {
+    flex-grow: 1;
+    margin: 0 15px;
+    text-align: center
+}
+
+
+.btn-google {
+  color: #545454;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 1px #ddd;
+}
+
+.btn-github {
+  color: #ffffff;
+  background-color: #333333;
+  box-shadow: 0 1px 2px 1px #555555;
+}
+
+</style>
+<div class="col-md-6">
+    <img src="{% static 'blog/images/welcome.svg' %}" alt="Login" class="img-fluid"  style="position: static; left: 10000px;">
+</div>
+<div class="m-auto col-md-8">
+    <div class="content-section">
+        <div class="hero-text">
+            <h1>Join Today</h1>
+            <p>Create an account and start sharing your thoughts with the world.</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Sign Up Now</a>
+        </div>
+
+        <hr class="my-4">
+
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            <fieldset class="form-group card p-4">
+                <legend class="border-bottom mb-4 font-weight-bold">Create an Account</legend>
+                
+                {{form|crispy}}
+
+                <div class="g-recaptcha" data-sitekey="6Lc6oUkaAAAAANkQnN5HaqEaDix1IvP7vkJSA1Zv"></div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary btn-lg" type="submit">Sign Up</button>
+                </div>
+            </fieldset>
+        </form>
+
+        <div class="or-container">
+            <div class="line-separator"></div>
+            <div class="or-label">or</div>
+            <div class="line-separator"></div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn-lg btn-google" href="#" role="button">
+                <i class="fab fa-google"></i>
+            </a>
+            <a class="btn btn-lg btn-primary" href="#" role="button">Sign up with Email</a>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already Have an Account? <a class="ml-2" href="{% url 'account_login' %}">Sign In</a>
+            </small>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

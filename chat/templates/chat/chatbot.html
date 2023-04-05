@@ -1,0 +1,124 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<!-- Begin page content -->
+<div class="content-wrapper">
+<main class="flex-shrink-0">
+  <div class="container py-5">
+    <h1 class="mt-5">Get Started with Your Personal AI mentor</h1>
+    <p>
+      chat Bot Release V.1
+    </p>
+    <div id="list-group" class="w-auto">
+        <div class="list-group-item list-group-item-user d-flex gap-3 py-3">    
+            <img src="{% static 'blog/images/coding.png' %}" alt="Avatar" class="list-group-item-avatar">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <p class="mb-0 opacity-75">Hi {{ user.first_name }}, I will be your personal assistant. I was designed and trained to help you study and also improve your vocabulary.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+   <div class="input-group mb-3">
+        <input type="text" class="form-control" id="chat-input" placeholder="Ask me anything">
+        <div class="input-group-append">
+            <button id="gpt-button" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+      </div>
+  </div>
+</main>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <script>
+    
+    // Add a fade-in effect when the page loads
+$(document).ready(function() {
+    $('body').hide().fadeIn(1000);
+});
+
+
+
+    document.getElementById("chat-input").addEventListener("keydown", function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("gpt-button").click();
+    }
+    });
+    
+    
+    $("#gpt-button").click(function(){
+        let question = $('#chat-input').val();
+        let html_data = '';
+        html_data += `
+        <div class="list-group-item list-group-item-user d-flex gap-3 py-3">
+
+            {% if user.profile.image.name  %}
+            <img src="{{ user.profile.image.url }}" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+            {% else %}
+            <img src="{% static 'main/img/avatars/download.png' %}" alt class="w-px-40 h-auto rounded-circle" />
+            {% endif  %}
+                <div>
+                    <p class="mb-0 opacity-75">${question}</p>
+                </div>
+            </div>
+        </div>
+        `;
+        $('#chat-input').val('');
+        $('#list-group').append(html_data);
+
+        // ajax call to server
+
+        $.ajax({
+        url: "",
+        method: "POST",
+        data: { "prompt": question },
+        success: function(response) {
+    let gpt_data = '';
+    gpt_data += `
+        <div class="list-group-item list-group-item-bot d-flex gap-3 py-3">
+            <img src= {% static 'blog/images/coding.png' %} alt="twbs" width="40" height="40" class="rounded-circle flex-shrink-0">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <p class="mb-0"></p>
+                </div>
+            </div>
+        </div>
+    `;
+    $('#list-group').append(gpt_data);
+
+    // simulate typing animation for bot's response
+    setTimeout(function() {
+        let words = response.answer.split(" ");
+        let i = 0;
+        let interval = setInterval(function() {
+            if (i < words.length) {
+                let current_text = $('#list-group').find('p:last').html();
+                $('#list-group').find('p:last').html(current_text + " " + words[i]);
+                i++;
+            } else {
+                clearInterval(interval);
+            }
+        }, 50);
+    }, 1000);
+}
+
+        });
+
+    });
+    </script>
+
+  </body>
+</html>
+
+
+{% endblock %}
+
+
