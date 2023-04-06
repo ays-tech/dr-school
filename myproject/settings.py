@@ -15,6 +15,7 @@ import os
 from dotenv import load_dotenv
 from django.contrib.messages import constants as messages
 import django_heroku
+import dj_database_url
 
 # Loading ENV
 env_path = Path('.') / '.env'
@@ -198,7 +199,8 @@ MESSAGE_TAGS = {
 ASGI_APPLICATION = "myproject.routing.application"
 
 
-
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 CHANNEL_LAYERS = {
     'default': {
@@ -227,3 +229,4 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
     }
 }
+DISABLE_COLLECTSTATIC=1
